@@ -29,11 +29,8 @@ public class GymCategory {
         int count = 0;
         
         try {
-            // Anchor to the main results container ID
             WebElement mainContainer = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mainContent")));
 
-            // Find cards inside this container using a CSS selector that targets the result cards
-            // 'div[role="none"]' is the specific role used for each gym card in your HTML
             List<WebElement> cards = mainContainer.findElements(By.cssSelector("div[role='none'].resultbox"));
 
             System.out.println("\n--- TOP 5 GYM SERVICES (Rating > 4.0 & Votes > 20) ---");
@@ -42,7 +39,6 @@ public class GymCategory {
                 if (count >= 5) break;
 
                 try {
-                    // Using relative XPaths from the card container
                     String name = card.findElement(By.xpath(".//span[contains(@class, 'resultbox_title_anchor')]")).getText().trim();
 
                     String ratingStr = card.findElement(By.xpath(".//li[contains(@class, 'resultbox_totalrate')]")).getText().trim();
@@ -58,8 +54,7 @@ public class GymCategory {
                         System.out.println("-------------------------------------------");
                     }
                 } catch (Exception e) {
-                    // Skip non-gym elements (like ads or 'Get List' boxes)
-                    continue;
+                    System.out.println("Error in GymCategory printFiveGymServices: " + e.getMessage());
                 }
             }
 

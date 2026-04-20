@@ -88,12 +88,11 @@ public class ServicePage {
 					By.xpath("//button[text()='Apply Filters']")));
 			applyBtn.click();
 
-			// wait for the dialog to close
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//aside[@role='dialog']")));
 
 			return true;
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+			System.out.println("Error in ServicePage applyRatingFilter: " + e.getMessage());
 			return false;
 		}
 	}
