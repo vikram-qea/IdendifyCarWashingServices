@@ -10,12 +10,16 @@ public class BaseTest {
     @BeforeClass
     public void setup() {
         driver = DriverSetup.getDriver("chrome");
+        if (driver != null) {
+            driver.manage().window().maximize();
+        }
     }
 
-    @AfterClass
-    public void closeDriver() throws InterruptedException {
-        System.out.println("Quiting the driver in 10 seconds...");
-        Thread.sleep(10000);
-        DriverSetup.quitDriver();
+    @AfterClass(alwaysRun = true)
+    public void closeDriver() {
+        if (driver != null) {
+            System.out.println("Closing the browser session...");
+            DriverSetup.quitDriver();
+        }
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [JustDial Automation Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="End-To-End Functional Tests(failed)">
+    <classes>
+      <class name="com.selenium.tests.JustDialTest">
+        <methods>
+          <include name="TC_11_VerifyGymServices"/>
+          <include name="TC_10_ReturnToHomeAndVerifyGym"/>
+          <include name="TC_12_PrintGymServices"/>
+          <include name="closeDriver"/>
+          <include name="setup"/>
+          <include name="init"/>
+        </methods>
+      </class> <!-- com.selenium.tests.JustDialTest -->
+    </classes>
+  </test> <!-- End-To-End Functional Tests(failed) -->
+</suite> <!-- Failed suite [JustDial Automation Suite] -->

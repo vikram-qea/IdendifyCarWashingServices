@@ -24,8 +24,10 @@ public class GymCategory {
         }
     }
 
-    public void printFiveGymServices() {
+    public boolean printFiveGymServices() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        int count = 0;
+        
         try {
             // Anchor to the main results container ID
             WebElement mainContainer = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mainContent")));
@@ -34,7 +36,6 @@ public class GymCategory {
             // 'div[role="none"]' is the specific role used for each gym card in your HTML
             List<WebElement> cards = mainContainer.findElements(By.cssSelector("div[role='none'].resultbox"));
 
-            int count = 0;
             System.out.println("\n--- TOP 5 GYM SERVICES (Rating > 4.0 & Votes > 20) ---");
 
             for (WebElement card : cards) {
@@ -69,5 +70,7 @@ public class GymCategory {
         } catch (Exception e) {
             System.out.println("Critical Error: Result container not found.");
         }
+        
+        return count > 0;
     }
 }

@@ -1,11 +1,19 @@
 package com.selenium.tests;
 
-import com.selenium.base.BaseTest;
-import com.selenium.pages.*;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.openqa.selenium.By;
+
+import com.selenium.base.BaseTest;
+import com.selenium.pages.FreeListing;
+import com.selenium.pages.GymCategory;
+import com.selenium.pages.HomePage;
+import com.selenium.pages.ServicePage;
 
 public class JustDialTest extends BaseTest {
 
@@ -13,6 +21,7 @@ public class JustDialTest extends BaseTest {
     ServicePage servicePage;
     FreeListing freeListing;
     GymCategory gym;
+    WebDriverWait wait;
 
     @BeforeClass
     public void init() {
@@ -20,6 +29,7 @@ public class JustDialTest extends BaseTest {
         servicePage = new ServicePage(driver);
         freeListing = new FreeListing(driver);
         gym = new GymCategory(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     // TC-01: Launch website
@@ -79,7 +89,7 @@ public class JustDialTest extends BaseTest {
         Assert.assertTrue(driver.getCurrentUrl().toLowerCase().contains("free-listing"), "TC-08: Form submitted incorrectly!");
     }
 
-    // TC-09: Check error msg & display
+    // TC-09: Check error message & display
     @Test(priority = 9, dependsOnMethods = "TC_08_SubmitInvalidForm")
     public void TC_09_VerifyErrorMessage() {
         boolean isErrorVisible = !driver.findElements(By.xpath("//div[@id='listyourbusiness']/div/span[2]")).isEmpty();
@@ -97,13 +107,16 @@ public class JustDialTest extends BaseTest {
     // TC-11: Verify gym services ui is loaded or not
     @Test(priority = 11, dependsOnMethods = "TC_10_ReturnToHomeAndVerifyGym")
     public void TC_11_VerifyGymServices() {
-        Assert.assertTrue(!driver.findElements(By.id("mainContent")).isEmpty(), "TC-11: Gym items not loaded!");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mainContent")));
+        
+        boolean isLoaded = !driver.findElements(By.id("mainContent")).isEmpty();
+        Assert.assertTrue(isLoaded, "TC-11: Gym items not loaded!");
     }
 
     // TC-12: Finally print the gym services
     @Test(priority = 12, dependsOnMethods = "TC_11_VerifyGymServices")
     public void TC_12_PrintGymServices() {
-        gym.printFiveGymServices();
-        System.out.println("TC-12: Gym services printed to console.");
+        boolean printed = gym.printFiveGymServices();
+        Assert.assertTrue(printed, "Printed All gym Services.");
     }
 }
